@@ -21,7 +21,7 @@ match DEBUG:
     case True:
         SERVER = 'https://3000-p0syd0n-padfootserver-14zsp1owg0h.ws-us104.gitpod.io'
     case False:
-        SERVER = 'https://padfoot-server.adaptable.app'
+        SERVER = 'https://posydon.ddns.net:3000'
 
 # Connect to the Socket.IO server
 sio = socketio.Client(reconnection=True, reconnection_delay=3)
